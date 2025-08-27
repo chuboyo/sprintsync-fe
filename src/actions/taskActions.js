@@ -10,10 +10,14 @@ import { LIST_TASK_REQUEST,
     EDIT_TASK_FAIL, 
     GET_AI_DESC_REQUEST,
     GET_AI_DESC_SUCCESS,
-    GET_AI_DESC_FAIL
+    GET_AI_DESC_FAIL,
+    TASK_DAILY_SUMMARY_REQUEST,
+    TASK_DAILY_SUMMARY_SUCCESS,
+    TASK_DAILY_SUMMARY_FAIL,
+
  } from "../constants/taskConstants";
 
- export const createTask =
+export const createTask =
   (params) =>
   async (dispatch) => {
     try {
@@ -126,7 +130,7 @@ export const editTask =
     }
   };
 
-  export const getAIDesc =
+export const getAIDesc =
   (params) =>
   async (dispatch) => {
     try {
@@ -160,6 +164,36 @@ export const editTask =
         error.response && error.response.data
         ? "An error occurred"
         : error.message,
+      });
+    }
+  };
+
+export const getDailySummary = () => async (dispatch) => {
+    try {
+      dispatch({ type: TASK_DAILY_SUMMARY_REQUEST });
+  
+  
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+  
+      const { data } = await axios.get(`/tasks/daily_summary/`, config);
+  
+      dispatch({
+        type: TASK_DAILY_SUMMARY_SUCCESS,
+        payload: data,
+      });
+      console.log(data)
+    } catch (error) {
+        console.log(error)
+      dispatch({
+        type: TASK_DAILY_SUMMARY_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
       });
     }
   };

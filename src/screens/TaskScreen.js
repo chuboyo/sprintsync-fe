@@ -9,10 +9,12 @@ import {
     listTasks,
     createTask, 
     editTask, 
-    getAIDesc
+    getAIDesc,
+    getDailySummary
 } from "../actions/taskActions";
 import { logout } from "../actions/userActions";
 import Message from "../components/Message";
+import PieChartComponent from "../components/PieChartComponent";
 
 function TaskScreen(){
     // Modal states
@@ -29,71 +31,97 @@ function TaskScreen(){
 
     const taskEdit = useSelector((state) => state.editTask);
 
+    const dailySummary = useSelector((state) => state.dailySummary);
+
     const login = "/login"
 
     useEffect(
         () => {
             dispatch(listTasks());
+            dispatch(getDailySummary());
         }, [taskCreate.task, taskEdit.task, dispatch]
     )
 
-  
+    const taskData = (dailySummary?.summary || []).map((item) => ({
+        name: item.user__username,
+        value: item.total_tasks,
+    }));
+      
+    const hoursData = (dailySummary?.summary || []).map((item) => ({
+        name: item.user__username,
+        value: item.total_duration? Math.floor(item.total_duration/3600): 0.1,
+    }));
+      
+
+  console.log(taskData, hoursData)
 
   // Handlers
-  const handleStatusChange = (title, description, task_id) => {
-    dispatch(editTask(title, description, task_id));
-  };
+    const handleStatusChange = (title, description, task_id) => {
+        dispatch(editTask(title, description, task_id));
+    };
 
-  const handleEdit = (task) => {
-    setSelectedTask(task);
-    setModalType("edit");
-    setShowModal(true);
-  };
+    const handleEdit = (task) => {
+        setSelectedTask(task);
+        setModalType("edit");
+        setShowModal(true);
+    };
 
-  const handleCreate = () => {
-    setModalType("create");
-    setShowModal(true);
-  };
+    const handleCreate = () => {
+        setModalType("create");
+        setShowModal(true);
+    };
 
-  const handleAISuggest = () => {
-    setModalType("ai");
-    setShowModal(true);
-  };
+    const handleAISuggest = () => {
+        setModalType("ai");
+        setShowModal(true);
+    };
 
-  const handleLogout = () => {
-    dispatch(logout())
-    navigate(login)
-  };
+    const handleLogout = () => {
+        dispatch(logout())
+        navigate(login)
+    };
 
-  const handleModalSubmit = (data) => {
-    if (modalType === "edit") {
-      dispatch(editTask({ ...data, status: selectedTask.status,task_id: selectedTask.id,  }));
-    } else if (modalType === "create") {
-      dispatch(createTask(data));
-    } else if (modalType === "ai") {
-      dispatch(getAIDesc(data)).then((response) => {
-        console.log(response)
-        if (response?.payload?.description) {
-          setAIDescription(response.payload.description);
+    const handleModalSubmit = (data) => {
+        if (modalType === "edit") {
+        dispatch(editTask({ ...data, status: selectedTask.status,task_id: selectedTask.id,  }));
+        } else if (modalType === "create") {
+        dispatch(createTask(data));
+        } else if (modalType === "ai") {
+        dispatch(getAIDesc(data)).then((response) => {
+            console.log(response)
+            if (response?.payload?.description) {
+            setAIDescription(response.payload.description);
+            }
+        });
+        return; // AI flow does not close modal immediately
         }
-      });
-      return; // AI flow does not close modal immediately
-    }
-    setShowModal(false);
-    setSelectedTask(null);
-  };
+        setShowModal(false);
+        setSelectedTask(null);
+    };
 
   return (
     <>
       <NavBar onLogout={handleLogout}/>
       <Container className="mt-4">
-
         {taskList.error && <Message>{taskList.error}</Message>}
-        <Tasks
-          tasks={taskList.tasks}
-          onStatusChange={handleStatusChange}
-          onEdit={handleEdit}
-        />
+        <Row className="mb-4">
+          <Col md={6}>
+            {taskData?.length > 0 && <PieChartComponent
+              data={taskData}
+              dataKey="value"
+              nameKey="name"
+              title="Tasks per User Today"
+            />}
+          </Col>
+          <Col md={6}>
+            {hoursData?.length > 0 && <PieChartComponent
+              data={hoursData}
+              dataKey="value"
+              nameKey="name"
+              title="Hours Logged per User Today"
+            />}
+          </Col>
+        </Row>
 
         <Row className="mb-3">
           <Col className="d-flex justify-content-between">
@@ -105,6 +133,13 @@ function TaskScreen(){
             </Button>
           </Col>
         </Row>
+
+        
+        <Tasks
+          tasks={taskList.tasks}
+          onStatusChange={handleStatusChange}
+          onEdit={handleEdit}
+        />
 
         <TaskModal
           show={showModal}

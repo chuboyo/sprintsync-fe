@@ -1,0 +1,35 @@
+import React from "react";
+import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"];
+
+function PieChartComponent({ data, dataKey, nameKey, title }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "20px" }}>
+      <h5>{title}</h5>
+      <PieChart width={400} height={300}>
+        <Pie
+          data={data}
+          dataKey={dataKey}
+          nameKey={nameKey}
+          cx="50%"
+          cy="50%"
+          outerRadius={100}
+          fill="#8884d8"
+          label
+        >
+          {data.map((_, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={COLORS[index % COLORS.length]}
+            />
+          ))}
+        </Pie>
+        <Tooltip />
+        <Legend />
+      </PieChart>
+    </div>
+  );
+}
+
+export default PieChartComponent;

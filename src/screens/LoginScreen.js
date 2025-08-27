@@ -21,7 +21,6 @@ function LoginScreen(){
 
     useEffect(() => {
         if(userInfo){
-            console.log("successful")
             navigate(tasks)
         } else if (error){
             console.log(error)

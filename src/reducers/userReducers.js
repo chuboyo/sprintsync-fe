@@ -8,7 +8,7 @@ import {
     USER_LOGOUT
   } from "../constants/userConstants";
 
-  export const userRegisterReducer = (state = {}, action) => {
+export const userRegisterReducer = (state = {}, action) => {
     switch (action.type) {
       case USER_REGISTER_REQUEST:
         return { loading: true };
@@ -27,7 +27,7 @@ import {
     }
   };
 
-  export const userLoginReducer = (state = {}, action) => {
+export const userLoginReducer = (state = {}, action) => {
     switch (action.type) {
       case USER_LOGIN_REQUEST:
         return { loading: true };

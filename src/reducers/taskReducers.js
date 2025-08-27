@@ -9,10 +9,13 @@ import { LIST_TASK_REQUEST,
     EDIT_TASK_FAIL,
     GET_AI_DESC_REQUEST,
     GET_AI_DESC_SUCCESS,
-    GET_AI_DESC_FAIL
+    GET_AI_DESC_FAIL,
+    TASK_DAILY_SUMMARY_REQUEST,
+    TASK_DAILY_SUMMARY_SUCCESS,
+    TASK_DAILY_SUMMARY_FAIL,
  } from "../constants/taskConstants";
 
- export const createTaskReducer = (state = {}, action) => {
+export const createTaskReducer = (state = {}, action) => {
     switch (action.type) {
       case CREATE_TASK_REQUEST:
         return { loading: true };
@@ -28,7 +31,7 @@ import { LIST_TASK_REQUEST,
     }
   };
   
-  export const editTaskReducer = (state = {}, action) => {
+export const editTaskReducer = (state = {}, action) => {
     switch (action.type) {
       case EDIT_TASK_REQUEST:
         return { loading: true };
@@ -44,7 +47,7 @@ import { LIST_TASK_REQUEST,
     }
   };
   
-  export const listTaskReducer = (state = {}, action) => {
+export const listTaskReducer = (state = {}, action) => {
     switch (action.type) {
       case LIST_TASK_REQUEST:
         return { loading: true };
@@ -60,7 +63,7 @@ import { LIST_TASK_REQUEST,
     }
   };
 
-  export const getAIDescReducer = (state = {}, action) => {
+export const getAIDescReducer = (state = {}, action) => {
     switch (action.type) {
       case GET_AI_DESC_REQUEST:
         return { loading: true };
@@ -71,6 +74,20 @@ import { LIST_TASK_REQUEST,
       case GET_AI_DESC_FAIL:
         return { loading: false, error: action.payload };
   
+      default:
+        return state;
+    }
+  };
+
+
+export const dailySummaryReducer = (state = { summary: [] }, action) => {
+    switch (action.type) {
+      case TASK_DAILY_SUMMARY_REQUEST:
+        return { loading: true, summary: [] };
+      case TASK_DAILY_SUMMARY_SUCCESS:
+        return { loading: false, summary: action.payload };
+      case TASK_DAILY_SUMMARY_FAIL:
+        return { loading: false, error: action.payload };
       default:
         return state;
     }

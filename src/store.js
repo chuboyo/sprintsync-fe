@@ -6,7 +6,8 @@ import { userRegisterReducer,
 import { listTaskReducer,
     createTaskReducer,
     editTaskReducer, 
-    getAIDescReducer
+    getAIDescReducer,
+    dailySummaryReducer
  } from "./reducers/taskReducers";
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     createTask: createTaskReducer,
     editTask: editTaskReducer,
     getAIDesc: getAIDescReducer,
+    dailySummary: dailySummaryReducer,
 })
 
 const store = configureStore({ reducer: rootReducer });
