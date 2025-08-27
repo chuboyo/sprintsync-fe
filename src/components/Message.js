@@ -5,10 +5,6 @@ function Message({ variant, children }) {
   return (
     <Alert
       variant={variant}
-      style={{
-        backgroundColor: "#F7F5FF",
-        color: "#6941C6",
-      }}
       dismissible
     >
       {children}

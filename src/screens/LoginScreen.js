@@ -14,6 +14,7 @@ function LoginScreen(){
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const tasks = "/tasks"
 
     const userLogin = useSelector((state) => state.userLogin);
     const { loading, error, userInfo } = userLogin;
@@ -21,6 +22,7 @@ function LoginScreen(){
     useEffect(() => {
         if(userInfo){
             console.log("successful")
+            navigate(tasks)
         } else if (error){
             console.log(error)
         }
@@ -49,6 +51,7 @@ function LoginScreen(){
               <Card style={{ width: '22rem', padding: '1.5rem', borderRadius: '1rem' }}>
                 <Card.Body>
                   <Card.Title className="text-center mb-4">Login</Card.Title>
+                  {error&& <Message variant="primary">{error}</Message>}
                   {message && <Message variant="primary">{message}</Message>}
                   {loading && <Loading/>}
                   <Form onSubmit={(e) => submitHandler(e)}>

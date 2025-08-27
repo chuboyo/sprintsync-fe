@@ -1,31 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RegistrationScreen from "./screens/RegistrationScreen";
 import LoginScreen from './screens/LoginScreen';
+import TaskScreen from './screens/TaskScreen';
 
 function App() {
   return (
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    // </div>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<RegistrationScreen />} />
         <Route path="/login" element={<LoginScreen />} />
+        <Route path="/tasks" element={<TaskScreen />} />
       </Routes>
     </BrowserRouter>
   );

@@ -5,7 +5,8 @@ import {
   USER_REGISTER_FAIL, 
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
-  USER_LOGIN_FAIL
+  USER_LOGIN_FAIL,
+  USER_LOGOUT
 } from "../constants/userConstants";
 
 export const register =
@@ -78,15 +79,25 @@ export const register =
       // store user in local storage
       localStorage.setItem("user", JSON.stringify(data));
     } catch (error) {
+        console.log(error)
       dispatch({
         type: USER_LOGIN_FAIL,
         payload:
-          error.response && error.response.data.email
-            ? error.response.data.email[0]
+          error.response && error.response.data.non_field_errors
+            ? error.response.data.non_field_errors[0]
             : error.response && error.response.data.message
             ? error.response.data.message
             : error.message,
       });
     }
+  };
+
+  export const logout = () => async (dispatch) => {
+    // set authorization token to empty string
+    axios.defaults.headers.common["Authorization"] = "";
+    // remove user from local storage
+    localStorage.removeItem("user");
+
+    dispatch({ type: USER_LOGOUT })
   };
   

@@ -8,9 +8,6 @@ function Loading() {
       size="sm"
       role="status"
       className="mt-2"
-      style={{
-        color: "#7362D6",
-      }}
     >
       <span className="visually-hidden">Loading...</span>
     </Spinner>

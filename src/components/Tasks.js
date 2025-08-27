@@ -1,51 +1,82 @@
-// src/components/TaskList.js
 import React from 'react';
-import { ListGroup, Badge, Button } from 'react-bootstrap';
+import { ListGroup, Button, DropdownButton, Dropdown, Row, Col } from 'react-bootstrap';
 
 function Tasks({ tasks, onStatusChange, onEdit }) {
+  const statuses = ["todo", "inprogress", "done"];
+
+  const formatDuration = (duration = "0:00:00") => {
+    if (!duration) return "0m";
+    const [h = 0, m = 0, s = 0] = duration.split(":").map(Number);
+    const totalMinutes = h * 60 + m + (Math.floor(s) >= 30 ? 1 : 0);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return hours ? `${hours}h ${minutes}m` : `${minutes}m`;
+  };
+
   return (
-    <ListGroup className="m-3">
-      {tasks.map((task) => (
-        <ListGroup.Item
-          key={task.id}
-          className="d-flex justify-content-between align-items-center"
-        >
-          <div>
-            <h6>{task.title}</h6>
-            <small className="text-muted">{task.description}</small>
-          </div>
-          <div className="d-flex align-items-center">
-            <Badge
-              bg={
-                task.status === 'todo'
-                  ? 'secondary'
-                  : task.status === 'inprogress'
-                  ? 'warning'
-                  : 'success'
-              }
-              className="me-2"
-            >
-              {task.status}
-            </Badge>
-            <Button
-              variant="outline-primary"
-              size="sm"
-              className="me-2"
-              onClick={() => onStatusChange(task.id)}
-            >
-              Next
-            </Button>
-            <Button
-              variant="outline-secondary"
-              size="sm"
-              onClick={() => onEdit(task)}
-            >
-              Edit
-            </Button>
-          </div>
-        </ListGroup.Item>
-      ))}
-    </ListGroup>
+    <div className="m-3">
+      {/* Header row */}
+      <Row className="fw-bold pb-2 mb-2">
+        <Col xs={6}>Task</Col>
+        <Col xs={2}>Duration</Col>
+        <Col xs={2}>Status</Col>
+        <Col xs={2}>Actions</Col>
+      </Row>
+
+      <ListGroup>
+        {tasks && tasks.map((task) => (
+          <ListGroup.Item key={task.id} className="py-2">
+            <Row className="align-items-center">
+              <Col xs={6}>
+                <div>
+                  <h6 className="mb-1">{task.title}</h6>
+                  <small className="text-muted">{task.description}</small>
+                </div>
+              </Col>
+              <Col xs={2}>
+                <small className="text-muted">{formatDuration(task.total_minutes)}</small>
+              </Col>
+              <Col xs={2}>
+                <DropdownButton
+                  variant="outline-secondary"
+                  title={task.status}
+                  onSelect={(selectedStatus) => {
+                    if (selectedStatus !== task.status) {
+                      onStatusChange({
+                        title: task.title,
+                        description: task.description,
+                        status: selectedStatus,
+                        task_id: task.id
+                      });
+                    }
+                  }}
+                  size="sm"
+                >
+                  {statuses.map((status) => (
+                    <Dropdown.Item
+                      key={status}
+                      eventKey={status}
+                      active={status === task.status}
+                    >
+                      {status}
+                    </Dropdown.Item>
+                  ))}
+                </DropdownButton>
+              </Col>
+              <Col xs={2}>
+                <Button
+                  variant="outline-secondary"
+                  size="sm"
+                  onClick={() => onEdit(task)}
+                >
+                  Edit
+                </Button>
+              </Col>
+            </Row>
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
+    </div>
   );
 }
 
