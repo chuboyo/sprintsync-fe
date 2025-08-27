@@ -8,15 +8,15 @@ The app provides a lightweight UI for authentication, task management, and integ
 
 # Data 🗂️
 The frontend interacts with a Django REST Framework backend through REST APIs:
-- Local: `http://localhost:8000/api/`
+- Local: `http://localhost:8000/api/v1/`
 - Production: configure via `.env` → `REACT_APP_API_URL=https://your-backend.com/api/`
 
 # Product 📦
 Core features:
 - User login (JWT support)  
 - Task list with inline status updates (ToDo / InProgress / Done)  
-- Create/Edit/Delete tasks via modal  
-- “AI Suggest” button placeholder for backend integration  
+- Create/Edit/ tasks via modal  
+- “AI Suggest” button via modal
 - Responsive layout built with React-Bootstrap  
 
 # Implementation ⚙️
