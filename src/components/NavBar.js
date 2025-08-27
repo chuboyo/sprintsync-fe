@@ -6,7 +6,7 @@ function NavBar({ onLogout }) {
   return (
     <Navbar bg="light" expand="lg" className="shadow-sm">
       <Container>
-        <Navbar.Brand href="/">
+        <Navbar.Brand href="/tasks">
           <img
             src="/logo192.png"
             alt="App Logo"

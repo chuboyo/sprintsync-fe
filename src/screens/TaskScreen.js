@@ -51,9 +51,6 @@ function TaskScreen(){
         name: item.user__username,
         value: item.total_duration? Math.floor(item.total_duration/3600): 0.1,
     }));
-      
-
-  console.log(taskData, hoursData)
 
   // Handlers
     const handleStatusChange = (title, description, task_id) => {

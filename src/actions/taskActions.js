@@ -185,9 +185,7 @@ export const getDailySummary = () => async (dispatch) => {
         type: TASK_DAILY_SUMMARY_SUCCESS,
         payload: data,
       });
-      console.log(data)
     } catch (error) {
-        console.log(error)
       dispatch({
         type: TASK_DAILY_SUMMARY_FAIL,
         payload:
