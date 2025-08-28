@@ -10,6 +10,7 @@ The app provides a lightweight UI for authentication, task management, and integ
 The frontend interacts with a Django REST Framework backend through REST APIs:
 - Local: `http://localhost:8000/api/v1/`
 - Production: `https://main.d1q09k6ak00k85.amplifyapp.com/`
+- Demo Link: `https://drive.google.com/file/d/1sfRB7egPXaOTJMExquF-p7uga8TDtKqJ/view?usp=sharing`
 
 # Product 📦
 Core features:
