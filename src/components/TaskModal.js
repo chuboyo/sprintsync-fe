@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import Loading from "./Loading";
 
 
-const TaskModal = ({ show, onHide, type, task, aiDescription, onSubmit }) => {
+const TaskModal = ({ show, onHide, type, task, aiDescription, loader, onSubmit }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -34,6 +35,7 @@ const TaskModal = ({ show, onHide, type, task, aiDescription, onSubmit }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {loader && <Loading/>}
         <Form>
           <Form.Group className="mb-3">
             <Form.Label>Task Title</Form.Label>

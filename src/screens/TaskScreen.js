@@ -22,6 +22,7 @@ function TaskScreen(){
     const [modalType, setModalType] = useState(""); // "edit", "create", "ai"
     const [selectedTask, setSelectedTask] = useState(null);
     const [aiDescription, setAIDescription] = useState("");
+    const [aiDescriptionLoader, setAIDescriptionLoader] = useState(false);
 
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -84,11 +85,12 @@ function TaskScreen(){
         } else if (modalType === "create") {
         dispatch(createTask(data));
         } else if (modalType === "ai") {
+        setAIDescriptionLoader(true)
         dispatch(getAIDesc(data)).then((response) => {
-            console.log(response)
             if (response?.payload?.description) {
             setAIDescription(response.payload.description);
             }
+            setAIDescriptionLoader(false)
         });
         return; // AI flow does not close modal immediately
         }
@@ -144,6 +146,7 @@ function TaskScreen(){
           type={modalType}
           task={selectedTask}
           aiDescription={aiDescription}
+          loader={aiDescriptionLoader}
           onSubmit={handleModalSubmit}
         />
       </Container>
