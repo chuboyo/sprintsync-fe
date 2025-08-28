@@ -9,7 +9,7 @@ The app provides a lightweight UI for authentication, task management, and integ
 # Data 🗂️
 The frontend interacts with a Django REST Framework backend through REST APIs:
 - Local: `http://localhost:8000/api/v1/`
-- Production: configure via `.env` → `REACT_APP_API_URL=https://your-backend.com/api/`
+- Production: `https://main.d1q09k6ak00k85.amplifyapp.com/`
 
 # Product 📦
 Core features:
